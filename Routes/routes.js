@@ -1,15 +1,8 @@
-const express = require('express');
-const path = require('path');
-const inquirer = require('inquirer');
 const fs = require('fs');
-const PORT = 3001;
-const app = express();
-var notes = JSON.parse(data);
+const path = require('path');
 
-//Parses JSON
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+
+
 
 //Route to Home Page
 app.get('/', (req, res) =>
@@ -30,17 +23,10 @@ app.listen(PORT, () =>
 
 //Route specific notes
 app.post('/api/notes', function(req, res){
-  let newNote = req.body;
-  notes.push(newNote);
-  updateDb();
-  return console.log("Added new note: "+newNote.title);
+
 });
 
 //Route Specific ID for note
 app.get("/api/notes/:id", function(req,res) {
   res.json(notes[req.params.id]);
 });
-
-
-
-
