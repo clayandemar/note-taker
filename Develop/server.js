@@ -28,13 +28,24 @@ app.get('/notes', (req, res) =>
 )
 
 //Save button
-app.post('/api/notes', (req, res) =>
-{
-  savedNotes.push(req.body)
-  return console.log(req.body);
-  
-
-  // res.send('{ hello }')
+app.post('/api/notes', (req, res) => {
+  savedNotes.push(req.body);
+  updateSavedNotes();
+  return true;
 }
-)
+);
 
+//Update the saved notes function
+function updateSavedNotes() {
+  fs.writeFile("db/db.json", JSON.stringify(savedNotes, '\t'), err => {
+    return true;
+  });
+}
+
+//Grab saved notes and put them in saved notes section
+app.get('/api/notes', (req, res) => {
+  fs.readFile("db/db.json", "utf8", (err,data) => {
+    savedNotes = JSON.parse(data);
+  })
+  res.json(savedNotes)
+});
